@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Heaven - Your Online Bookstore & Reading Room</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #f48fb1;
+      --secondary-color: #f8c5d2;
+      --accent-color: #d81b60;
+      --text-color: #333;
+      --light-color: #fddde6;
+    }
+    
+    body {
+      background-color: var(--secondary-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      padding-top: 56px; /* Untuk fixed navbar */
+    }
+    
+    /* Navbar */
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      background-color: var(--primary-color);
+      height: calc(100vh - 56px);
+      padding: 20px;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 200px;
+      color: #fff;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar ul li {
+      margin: 15px 0;
+      transition: transform 0.2s;
+    }
+    
+    .sidebar ul li:hover {
+      transform: translateX(5px);
+    }
+    
+    .sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      display: block;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    
+    .sidebar ul li a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Main Content */
+    .main-content {
+      margin-left: 200px;
+      transition: margin 0.3s ease;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+    
+    /* Sections */
+    .section {
+      padding: 60px 20px;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--accent-color);
+      position: relative;
+    }
+    
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin: 15px auto;
+    }
+    
+    .featured-books {
+      background: var(--light-color);
+    }
+    
+    .digital-room {
+      background: white;
+    }
+    
+    .testimonials {
+      background: var(--light-color);
+    }
+    
+    .newsletter {
+      background: white;
+    }
+    
+    /* Book Cards */
+    .book-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      height: 100%;
+    }
+    
+    .book-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .book-img {
+      height: 250px;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 3rem;
+    }
+    
+    .book-info {
+      padding: 15px;
+    }
+    
+    .book-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .book-author {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    
+    /* Testimonials */
+    .testimonial-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      height: 100%;
+    }
+    
+    .stars {
+      color: gold;
+      margin-bottom: 15px;
+    }
+    
+    /* Newsletter */
+    .newsletter-form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--primary-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    
+    .social-links {
+      margin-bottom: 20px;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: transform 0.3s;
+    }
+    
+    .social-links a:hover {
+      transform: translateY(-3px);
+    }
+    
+    /* Mobile Toggle */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1100;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .sidebar-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-book-open me-2"></i>Book Heaven </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"> <a class="nav-link" href="#mainContent">Home</a></li>
+          <li class="nav-item"> <a class="nav-link" href="#featuredbooks">Featured Books</a></li>
+          <li class="nav-item"> <a class="nav-link" href="#digitalreadingroom">Digital Reading Room</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar Toggle for Mobile -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h4>Categories</h4>
+    <ul>
+      <li><a href="#"><i class="fas fa-book me-2"></i> Fiction</a></li>
+      <li><a href="#"><i class="fas fa-glasses me-2"></i> Non-Fiction</a></li>
+      <li><a href="#"><i class="fas fa-rocket me-2"></i> Science Fiction</a></li>
+      <li><a href="#"><i class="fas fa-child me-2"></i> Children's Books</a></li>
+      <li><a href="#"><i class="fas fa-graduation-cap me-2"></i> Educational</a></li>
+      <li><a href="#"><i class="fas fa-heart me-2"></i> Romance</a></li>
+      <li><a href="#"><i class="fas fa-search me-2"></i> Mystery</a></li>
+      <li><a href="#"><i class="fas fa-crown me-2"></i> Fantasy</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>Welcome to Book Heaven</h1>
+      <p>Discover your next favorite book in our extensive collection and enjoy reading in our cozy digital reading room.</p>
+      <div>
+        <a href="#digitalreadingroom" class="btn btn-outline-light btn-lg me-2"><i class="fas fa-book-reader me-1"></i> Explore Reading Room</a>
+        <a href="#featuredbooks" class="btn btn-danger btn-lg"><i class="fas fa-shopping-bag me-1"></i> Shop Now</a>
+      </div>
+    </div>
+
+    <!-- Featured Books -->
+    <div class="section featured-books" id="featuredbooks">
+      <div class="container">
+        <h2 class="section-title">Featured Books</h2>
+        <p class="text-center mb-5">Handpicked selection of this week's bestsellers and hidden gems.</p>
+        <div class="text-center mb-5">
+          <a href="#" class="btn btn-danger">View All Books</a>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-3 col-sm-6">
+            <div class="book-card">
+              <div class="book-img">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Silent Patient</div>
+                <div class="book-author">By Alex Michaelides</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="price">$18.99</span>
+                  <button class="btn btn-sm btn-outline-danger">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="book-card">
+              <div class="book-img">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Where the Crawdads Sing</div>
+                <div class="book-author">By Delia Owens</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="price">$16.99</span>
+                  <button class="btn btn-sm btn-outline-danger">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="book-card">
+              <div class="book-img">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Atomic Habits</div>
+                <div class="book-author">By James Clear</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="price">$14.99</span>
+                  <button class="btn btn-sm btn-outline-danger">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="book-card">
+              <div class="book-img">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Midnight Library</div>
+                <div class="book-author">By Matt Haig</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="price">$17.99</span>
+                  <button class="btn btn-sm btn-outline-danger">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Digital Reading Room -->
+    <div class="section Digital Reading Room" id="digitalreadingroom">
+      <div class="container">
+        <h2 class="section-title">Digital Reading Room</h2>
+        <p class="text-center mb-5">Explore our extensive digital collection. Read anytime, anywhere.</p>
+        <div class="text-center mb-5">
+          <a href="#" class="btn btn-danger">Start Reading Now</a>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="p-4 border rounded book-selection">
+              <div class="d-flex align-items-center mb-3">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                  <i class="fas fa-book"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0">The Power of Habit</h5>
+                  <p class="mb-0">By Charles Duhigg</p>
+                </div>
+              </div>
+              <p class="mb-3">Unlock the keys to transforming your habits and improving your life.</p>
+              <a href="#" class="btn btn-outline-primary">Read Now <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-4 border rounded book-selection">
+              <div class="d-flex align-items-center mb-3">
+                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                  <i class="fas fa-book"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0">Where the Crawdads Sing</h5>
+                  <p class="mb-0">By Delia Owens</p>
+                </div>
+              </div>
+              <p class="mb-3">A coming-of-age novel set in the marshlands of North Carolina.</p>
+              <a href="#" class="btn btn-outline-success">Read Now <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="section testimonials">
+      <div class="container">
+        <h2 class="section-title">What Readers Are Saying</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="testimonial-card">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p class="mb-3">"Book Heaven is a paradise for book lovers! The selection is incredible and the digital reading experience is seamless."</p>
+              <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                  A
+                </div>
+                <div>
+                  <strong>Alice Johnson</strong>
+                  <p class="mb-0 small">Book Enthusiast</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial-card">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p class="mb-3">"I found my new favorite book here. The recommendations are spot on and the prices are very reasonable."</p>
+              <div class="d-flex align-items-center">
+                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                  B
+                </div>
+                <div>
+                  <strong>Bob Smith</strong>
+                  <p class="mb-0 small">Avid Reader</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial-card">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <p class="mb-3">"The digital reading room is fantastic! I love being able to access my books from any device. Highly recommend!"</p>
+              <div class="d-flex align-items-center">
+                <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                  C
+                </div>
+                <div>
+                  <strong>Charlie Brown</strong>
+                  <p class="mb-0 small">Literature Student</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="section newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2 class="section-title">Stay Updated</h2>
+            <p class="text-center mb-5">Subscribe to our newsletter for updates on new arrivals, exclusive deals, and reading recommendations.</p>
+            <form class="newsletter-form">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="name" class="form-label">Your Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Your Email</label>
+                  <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label" for="terms">
+                      I agree to receive newsletters and promotional emails
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn btn-danger btn-lg">Subscribe Now</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="container">
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-pinterest"></i></a>
+          <a href="#"><i class="fab fa-goodreads"></i></a>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-6 mb-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Home</a></li>
+              <li><a href="#" class="text-white">Books</a></li>
+              <li><a href="#" class="text-white">Categories</a></li>
+              <li><a href="#" class="text-white">Reading Room</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-6 mb-4">
+            <h5>Help</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">My Account</a></li>
+              <li><a href="#" class="text-white">Customer Support</a></li>
+              <li><a href="#" class="text-white">Returns & Refunds</a></li>
+              <li><a href="#" class="text-white">Shipping Info</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-6 mb-4">
+            <h5>About</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Our Story</a></li>
+              <li><a href="#" class="text-white">Careers</a></li>
+              <li><a href="#" class="text-white">Privacy Policy</a></li>
+              <li><a href="#" class="text-white">Terms of Service</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-6 mb-4">
+            <h5>Contact</h5>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-map-marker-alt me-2"></i> 123 Book Street, Reading, RT 54321</li>
+              <li><i class="fas fa-phone me-2"></i> (555) 123-4567</li>
+              <li><i class="fas fa-envelope me-2"></i> info@bookheaven.com</li>
+            </ul>
+          </div>
+        </div>
+        <hr class="my-4 bg-light">
+        <p>© 2025 Book Heaven. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Toggle sidebar on mobile
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.getElementById('sidebarToggle');
+      
+      if (window.innerWidth < 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+      }
+    });
+    
+    // Add to cart functionality
+    const addToCartButtons = document.querySelectorAll('.btn-outline-danger');
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const bookTitle = this.closest('.book-card').querySelector('.book-title').textContent;
+        alert(`Added "${bookTitle}" to your cart!`);
+      });
+    });
+  </script>
+</body>
+</html>
